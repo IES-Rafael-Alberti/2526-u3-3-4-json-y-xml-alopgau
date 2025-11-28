@@ -17,9 +17,6 @@ def mostrar_datos(archivo:dict) -> None:
     print("---Fin del contenido---")
 def inicializar_datos() -> bool | dict:
     """Copia el contenido del archivo a un archivo datos_usuarios.json
-    Args:
-    Returns:
-        archivo_nuevo (dict) archivo json nuevo
     """
     try:
         with open("datos_usuarios_orig.json", "r") as f:
@@ -41,7 +38,38 @@ def limpiar_consola():
             os.system("clear")
 def espera():
     return input("Presione Enter para continuar")
-def actualizar_edad(archivo:dict)
+def actualizar_edad(archivo:dict) -> None:
+    """Actualiza la edad de un usuario
+    Args:
+        archivo (dict): archivo entrante
+    Returns:
+        None"""
+    archivo["usuarios"][0]["edad"] = 26
+    print("Actualizada la edad del usuario con id 1")
+def insertar_usuario(archivo:dict) -> None:
+    """Inserta un usuario
+        Args:
+            archivo (dict): archivo entrante
+        Returns:
+            None"""
+    archivo["usuarios"].append(dict([("id",3), ("nombre", "Pedro"), ("Edad",40)]))
+    print("Usuario Pedro añadido con éxito")
+def eliminar_usuario(archivo:dict) -> None:
+    """Elimina un usuario
+            Args:
+                archivo (dict): archivo entrante
+            Returns:
+                None"""
+    archivo["usuarios"].remove(1)
+print("Usuario con ID 2 eliminado")
+def actualizar_archivo(archivo:dict) -> None:
+    """Actualiza el JSON
+               Args:
+                   archivo (dict): archivo entrante
+               Returns:
+                   None"""
+    with open("datos_usuarios_procesados.json", "w") as f:
+            json.dump(archivo,f)
 def main():
         if inicializar_datos():
             archivo = inicializar_datos()
@@ -49,12 +77,16 @@ def main():
             espera()
             limpiar_consola()
             actualizar_edad(archivo)
+            mostrar_datos(archivo)
             espera()
             limpiar_consola()
             insertar_usuario(archivo)
+            mostrar_datos(archivo)
             espera()
             limpiar_consola()
             eliminar_usuario(archivo)
+            espera()
+            actualizar_archivo(archivo)
 
 
 if __name__ == "__main__":
