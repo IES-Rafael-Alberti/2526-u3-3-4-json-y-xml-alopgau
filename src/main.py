@@ -63,7 +63,7 @@ def eliminar_usuario(archivo:dict) -> None:
     del [archivo["usuarios"][1]]
 print("Usuario con ID 2 eliminado")
 def actualizar_archivo(archivo:dict) -> None:
-    """Actualiza el JSON
+    """Crea un JSON nuevo con los datos actualizados
                Args:
                    archivo (dict): archivo entrante
                Returns:
