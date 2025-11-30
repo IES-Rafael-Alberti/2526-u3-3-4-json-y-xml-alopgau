@@ -1,11 +1,22 @@
 import json
 import os
-def cargar_json():
-    """Carga el JSON"""
-    with open("datos_usuarios_orig.json", "r") as f:
-        archivo = json.load(f)
-        return archivo
-def mostrar_datos(archivo:dict) -> None:
+def cargar_json(ruta_origen:str) -> None:
+    """Carga el JSON de destino
+    Args:
+        ruta_origen (str): Ruta del archivo origen
+    Returns:
+        None
+    """
+    with open(ruta_origen, "r") as o:
+        origen = json.load(o)
+
+    with open("datos_usuarios.json", "w") as destino:
+        json.dump(origen,destino, indent=4)
+
+    with open("datos_usuarios.json", "r") as destino:
+        archivo = json.load(destino)
+    return archivo
+def mostrar_datos(archivo:dict) -> bool:
     """Muestra los datos del json en consola
     Args:
         archivo (dict): JSON en forma de diccionario
@@ -24,14 +35,16 @@ def mostrar_datos(archivo:dict) -> None:
             print(f"ID: {usuario.get("id")} Nombre: {usuario.get("nombre")} Edad: {usuario.get("edad")} ")
         print("---Fin del contenido---")
         return True
-def inicializar_datos() -> bool:
-    """Copia el contenido del archivo a un archivo datos_usuarios.json
+def inicializar_datos(origen:str) -> bool:
+    """Comprueba si hay algún error en el archivo origen
+    Args:
+        origen (str): archivo origen
     Returns:
         False: Hay algún error
         True: No hay errores
     """
     try:
-        with open("datos_usuarios_orig.json", "r"):
+        with open(origen, "r"):
             pass
     except FileNotFoundError:
         print("No se ha encontrado el archivo JSON. Asegúrate de que esté en el directorio raíz")
@@ -80,12 +93,12 @@ def actualizar_archivo(archivo:dict) -> None:
                    archivo (dict): archivo entrante
                Returns:
                    None"""
-    with open("datos_usuarios_procesados.json", "w") as f:
+    with open("datos_usuarios.json", "w") as f:
             json.dump(archivo,f, indent=4 )
     print("Operaciones completadas. Archivo actualizado.")
 def main():
-    if inicializar_datos():
-        archivo = cargar_json()
+    if inicializar_datos("datos_usuarios_orig.json"):
+        archivo = cargar_json("datos_usuarios_orig.json")
         if mostrar_datos(archivo):
             espera()
             limpiar_consola()
